@@ -13,4 +13,9 @@ class Pokemon extends Model
         'image',
         'coach_id'
     ];
+
+    public function coach()
+    {
+        return $this->belongsTo(Coach::class);
+    }
 }
