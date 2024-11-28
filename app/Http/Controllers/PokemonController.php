@@ -17,7 +17,9 @@ class PokemonController extends Controller
 
     public function create()
     {
-        return view('pokemon.create');
+        Gate::authorize('create', Pokemon::class);
+        $coaches = Coach::all();
+        return view('pokemon.create', compact('coaches'));
     }
 
     public function store(Request $request)
@@ -35,6 +37,7 @@ class PokemonController extends Controller
         $pokemon->name = $request->name;
         $pokemon->type = $request->type;
         $pokemon->power = $request->power;
+        $pokemon->coach_id = $request->coach_id;
         $pokemon->image = 'images/'.$imageName;
         $pokemon->save();
 
@@ -43,8 +46,10 @@ class PokemonController extends Controller
 
     public function edit($id)
     {
+        Gate::authorize('edit', Pokemon::class);
         $pokemon = Pokemon::findOrFail($id);
-        return view('pokemon.edit', compact('pokemon'));
+        $coaches = Coach::all();
+        return view('pokemon.edit', compact(['pokemon', 'coaches']));
     }
 
     public function update(Request $request, $id)
@@ -60,6 +65,7 @@ class PokemonController extends Controller
         $pokemon->name = $request->name;
         $pokemon->type = $request->type;
         $pokemon->power = $request->power;
+        $pokemon->coach_id = $request->coach_id;
         $pokemon->save();
 
         return redirect('pokemon')->with('success', 'Pokemon updated successfully.');
@@ -67,6 +73,7 @@ class PokemonController extends Controller
 
     public function destroy($id)
     {
+        Gate::authorize('destroy', Pokemon::class);
         $pokemon = Pokemon::findOrFail($id);
         $pokemon->delete();
         return redirect('pokemon')->with('success', 'Pokemon deleted successfully.');
