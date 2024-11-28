@@ -22,7 +22,22 @@ class PokemonController extends Controller
 
     public function store(Request $request)
     {
-        Pokemon::create($request->all());
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'power' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+
+        $pokemon = new Pokemon();
+        $pokemon->name = $request->name;
+        $pokemon->type = $request->type;
+        $pokemon->power = $request->power;
+        $pokemon->image = 'images/'.$imageName;
+        $pokemon->save();
+
         return redirect('pokemon')->with('success', 'Pokemon created successfully.');
     }
 
