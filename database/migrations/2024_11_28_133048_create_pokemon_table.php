@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type', 100);
             $table->integer('power');
             $table->timestamps();
+            $table->text('image'); 
         });
     }
 
