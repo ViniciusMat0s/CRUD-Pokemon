@@ -11,7 +11,7 @@ class Pokemon extends Model
         'type',
         'power',
         'image',
-        'coach_id'
+        'coach_id',
     ];
 
     public function coach()
