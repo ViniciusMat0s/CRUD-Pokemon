@@ -50,7 +50,18 @@ class PokemonController extends Controller
     public function update(Request $request, $id)
     {
         $pokemon = Pokemon::findOrFail($id);
-        $pokemon->update($request->all());
+        
+        if(!is_null($request->image)) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $pokemon->image = 'images/'.$imageName;
+        }
+
+        $pokemon->name = $request->name;
+        $pokemon->type = $request->type;
+        $pokemon->power = $request->power;
+        $pokemon->save();
+
         return redirect('pokemon')->with('success', 'Pokemon updated successfully.');
     }
 
