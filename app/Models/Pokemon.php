@@ -10,5 +10,6 @@ class Pokemon extends Model
         'name',
         'type',
         'power',
+        'image', 
     ];
 }
