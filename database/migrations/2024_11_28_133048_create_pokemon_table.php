@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('pokemon', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 200);
+            $table->string('type', 100);
+            $table->integer('power');
             $table->timestamps();
         });
     }
